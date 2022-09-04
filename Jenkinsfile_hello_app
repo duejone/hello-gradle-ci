@@ -7,8 +7,8 @@ pipeline {
         stage('build-app') {
             steps {
                 echo "Build ${GIT_COMMIT}"
-                // sh "docker build -t mtararujs/hello-app:latest ."
-                // sh "docker push mtararujs/hello-app:latest"
+                // sh "docker build -t duejone0/hello-app:latest ."
+                // sh "docker push duejone0/hello-app:latest"
             }
         }
         stage('deploy-dev') {
@@ -44,12 +44,12 @@ pipeline {
 
 def deploy(String environment){
    echo "Deployment of hello-app to ${environment} is starting.." 
-   sh "kubectl set image deployment hello-app-${environment} hello-app-${environment}-pod=mtararujs/hello-app:latest"
+   sh "kubectl set image deployment hello-app-${environment} hello-app-${environment}-pod=duejone0/hello-app:latest"
 }
 
 def test(String environment){
    echo "Testing of hello-app to ${environment} is starting"
-   sh "docker run --network=host -d -t --name api_test_executor_${environment} mtararujs/ubuntu_ruby_executor:latest"
+   sh "docker run --network=host -d -t --name api_test_executor_${environment} duejone0/ubuntu_ruby_executor:latest"
    try{
         sh "docker exec api_test_executor_${environment} cucumber PLATFORM=${environment} --format html --out test-output/report.html"
    }
